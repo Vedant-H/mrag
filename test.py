@@ -1,71 +1,72 @@
-import os
-import google.generativeai as genai
-from PIL import Image # For loading image files
-import asyncio # For running async functions
-GOOGLE_API_KEY = "AIzaSyBEd1BvEtL_KWvGQaOFKIwMffZuZ9lVNtM"
-genai.configure(api_key=GOOGLE_API_KEY)
+# import os
+# import google.generativeai as genai
+# from PIL import Image # For loading image files
+# import asyncio # For running async functions
+# GOOGLE_API_KEY =
+# genai.configure(api_key=GOOGLE_API_KEY)
 
-# --- Function to load an image ---
-def load_image(image_path: str) -> Image.Image:
-    """Loads an image from the specified path using Pillow."""
-    if not os.path.exists(image_path):
-        raise FileNotFoundError(f"Image file not found: {image_path}")
+# # --- Function to load an image ---
+# def load_image(image_path: str) -> Image.Image:
+#     """Loads an image from the specified path using Pillow."""
+#     if not os.path.exists(image_path):
+#         raise FileNotFoundError(f"Image file not found: {image_path}")
     
-    try:
-        # Open image and convert to RGB (some models prefer this)
-        img = Image.open(image_path).convert("RGB")
-        print(f"Successfully loaded image from: {image_path}")
-        return img
-    except Exception as e:
-        raise ValueError(f"Could not load or process image from {image_path}: {e}")
+#     try:
+#         # Open image and convert to RGB (some models prefer this)
+#         img = Image.open(image_path).convert("RGB")
+#         print(f"Successfully loaded image from: {image_path}")
+#         return img
+#     except Exception as e:
+#         raise ValueError(f"Could not load or process image from {image_path}: {e}")
 
-# --- Async function to interact with Gemini Multimodal ---
-async def describe_image_with_gemini(image_path: str, user_prompt: str = "") -> str:
-    """
-    Sends an image and an optional text prompt to Gemini 1.5 Flash
-    and returns its textual description/analysis.
-    """
-    try:
-        # Load the image
-        img = load_image(image_path)
+# # --- Async function to interact with Gemini Multimodal ---
+# async def describe_image_with_gemini(image_path: str, user_prompt: str = "") -> str:
+#     """
+#     Sends an image and an optional text prompt to Gemini 1.5 Flash
+#     and returns its textual description/analysis.
+#     """
+#     try:
+#         # Load the image
+#         img = load_image(image_path)
 
-        # Get the generative model
-        model = genai.GenerativeModel("gemini-1.5-flash")
+#         # Get the generative model
+#         model = genai.GenerativeModel("gemini-1.5-flash")
 
-        # Prepare the content list for the multimodal input
-        # The order matters: instruction text first, then image, then specific question
-        contents_for_gemini = [f"You are an AI assistant that describes images.Analyze the provided image and respond to the user's request. Be detailed and insightful. {user_prompt}"                
-        ,img ]
+#         # Prepare the content list for the multimodal input
+#         # The order matters: instruction text first, then image, then specific question
+#         contents_for_gemini = [f"You are an AI assistant that describes images.Analyze the provided image and respond to the user's request. Be detailed and insightful. {user_prompt}"                
+#         ,img ]
         
-        print("\nSending image and prompt to Gemini 1.5 Flash...")
-        response = await model.generate_content_async(contents_for_gemini)
+#         print("\nSending image and prompt to Gemini 1.5 Flash...")
+#         response = await model.generate_content_async(contents_for_gemini)
         
-        return response.text
+#         return response.text
 
-    except Exception as e:
-        print(f"Error during Gemini interaction: {e}")
-        return "Sorry, I couldn't process the image due to an error."
+#     except Exception as e:
+#         print(f"Error during Gemini interaction: {e}")
+#         return "Sorry, I couldn't process the image due to an error."
 
-# --- Main function to run the test ---
-async def main():
-    image_file_path = input("Enter the path to an image file (e.g., 'path/to/my_image.jpg'): ")
-    user_request = input("Enter a specific request for the image (optional, press Enter to skip): ")
+# # --- Main function to run the test ---
+# async def main():
+#     image_file_path = input("Enter the path to an image file (e.g., 'path/to/my_image.jpg'): ")
+#     user_request = input("Enter a specific request for the image (optional, press Enter to skip): ")
 
-    if not os.path.exists(image_file_path):
-        print(f"Error: The file '{image_file_path}' does not exist. Please check the path and try again.")
-        return
+#     if not os.path.exists(image_file_path):
+#         print(f"Error: The file '{image_file_path}' does not exist. Please check the path and try again.")
+#         return
 
-    print(f"\nTesting image input with Gemini for: {image_file_path}")
-    result = await describe_image_with_gemini(image_file_path, user_request)
+#     print(f"\nTesting image input with Gemini for: {image_file_path}")
+#     result = await describe_image_with_gemini(image_file_path, user_request)
 
-    print("\n--- Gemini's Response ---")
-    print(result)
-    print("-------------------------")
+#     print("\n--- Gemini's Response ---")
+#     print(result)
+#     print("-------------------------")
 
-# --- Run the main function ---
-if __name__ == "__main__":
-    asyncio.run(main())
+# # --- Run the main function ---
+# if __name__ == "__main__":
+#     asyncio.run(main())
 
+# C:\Users\Vedant\Downloads\test2.pdf
 
 
 # --- LLM Generation Function ---

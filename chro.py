@@ -52,6 +52,7 @@ async def main():
         doc_unique_id = pdf_content_data["document_id"]
         document_text = pdf_content_data["full_text"]
         pages_data = pdf_content_data["pages_data"]
+        print(pages_data)
         images_dir = os.path.join("temp_pdf_images", doc_unique_id)
 
         if not document_text.strip() and not any(p['image_paths'] for p in pages_data):
